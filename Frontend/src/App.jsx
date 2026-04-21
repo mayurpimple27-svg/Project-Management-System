@@ -9,9 +9,51 @@ const AuthPage = lazy(() =>
   import('./pages/AuthPage').then((module) => ({ default: module.AuthPage })),
 )
 
-const DashboardPage = lazy(() =>
-  import('./pages/DashboardPage').then((module) => ({
-    default: module.DashboardPage,
+const DashboardLayout = lazy(() =>
+  import('./pages/dashboard/DashboardLayout').then((module) => ({
+    default: module.DashboardLayout,
+  })),
+)
+
+const OverviewPage = lazy(() =>
+  import('./pages/dashboard/OverviewPage').then((module) => ({
+    default: module.OverviewPage,
+  })),
+)
+
+const ProjectsPage = lazy(() =>
+  import('./pages/dashboard/ProjectsPage').then((module) => ({
+    default: module.ProjectsPage,
+  })),
+)
+
+const DiscoverPage = lazy(() =>
+  import('./pages/dashboard/DiscoverPage').then((module) => ({
+    default: module.DiscoverPage,
+  })),
+)
+
+const TasksPage = lazy(() =>
+  import('./pages/dashboard/TasksPage').then((module) => ({
+    default: module.TasksPage,
+  })),
+)
+
+const AccessPage = lazy(() =>
+  import('./pages/dashboard/AccessPage').then((module) => ({
+    default: module.AccessPage,
+  })),
+)
+
+const MembersPage = lazy(() =>
+  import('./pages/dashboard/MembersPage').then((module) => ({
+    default: module.MembersPage,
+  })),
+)
+
+const NotesPage = lazy(() =>
+  import('./pages/dashboard/NotesPage').then((module) => ({
+    default: module.NotesPage,
   })),
 )
 
@@ -34,7 +76,16 @@ function App() {
             <Route path="/auth" element={<AuthPage />} />
 
             <Route element={<ProtectedRoute />}>
-              <Route path="/app" element={<DashboardPage />} />
+              <Route path="/app" element={<DashboardLayout />}>
+                <Route index element={<Navigate replace to="overview" />} />
+                <Route path="overview" element={<OverviewPage />} />
+                <Route path="projects" element={<ProjectsPage />} />
+                <Route path="discover" element={<DiscoverPage />} />
+                <Route path="tasks" element={<TasksPage />} />
+                <Route path="access" element={<AccessPage />} />
+                <Route path="members" element={<MembersPage />} />
+                <Route path="notes" element={<NotesPage />} />
+              </Route>
             </Route>
 
             <Route path="*" element={<Navigate replace to="/app" />} />

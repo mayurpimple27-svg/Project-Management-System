@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { apiRequest } from '../lib/api'
 
+const API_BASE = (import.meta.env.VITE_API_URL || '/api/v1').replace(/\/$/, '')
+
 // Mock fetch
 globalThis.fetch = vi.fn()
 
@@ -19,7 +21,7 @@ describe('API Request', () => {
 
     expect(result.data).toEqual({ id: '1', name: 'Test' })
     expect(fetch).toHaveBeenCalledWith(
-      '/api/v1/test',
+      `${API_BASE}/test`,
       expect.objectContaining({
         credentials: 'include',
         method: 'GET',
@@ -39,7 +41,7 @@ describe('API Request', () => {
     })
 
     expect(fetch).toHaveBeenCalledWith(
-      '/api/v1/test',
+      `${API_BASE}/test`,
       expect.objectContaining({
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
