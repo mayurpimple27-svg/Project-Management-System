@@ -1,7 +1,5 @@
 const rawApiBase = (import.meta.env.VITE_API_URL || '/api/v1').replace(/\/$/, '')
-const API_BASE = /^https?:\/\/[^/]+$/i.test(rawApiBase)
-  ? `${rawApiBase}/api/v1`
-  : rawApiBase
+const API_BASE = rawApiBase
 
 let accessToken = null
 let refreshPromise = null
