@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { apiRequest } from '../lib/api'
+import { apiRequest, clearAccessToken, setAccessToken } from '../lib/api'
 import { useToast } from './ToastContext'
 
 const AuthContext = createContext(null)
@@ -31,10 +31,12 @@ export const AuthProvider = ({ children }) => {
 
   const login = useCallback(
     async ({ email, password }) => {
-      await apiRequest('/auth/login', {
+      const loginResponse = await apiRequest('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       })
+
+      setAccessToken(loginResponse?.data?.accessToken || null)
       await loadSession()
       pushToast('Welcome back. Session secured.', 'success')
     },
@@ -59,6 +61,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(async () => {
     await apiRequest('/auth/logout', { method: 'POST' })
+    clearAccessToken()
     setCurrentUser(null)
     pushToast('You have been logged out.', 'info')
   }, [pushToast])
